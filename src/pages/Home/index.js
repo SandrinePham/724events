@@ -15,11 +15,14 @@ import { useData } from "../../contexts/DataContext";
 const Page = () => {
   const { data } = useData();
 
+  if (!data?.events?.length) {
+    return <div>Chargement des événements...</div>;
+  }
+
   const last = data?.events?.length
     ? data.events[data.events.length - 1]
     : null;
 
-  console.log("Dernière prestation:", last);
 
   return (
     <>
@@ -115,7 +118,6 @@ const Page = () => {
             {({ setIsOpened }) => (
               <Form
                 onSuccess={() => {
-                  console.log("success");
                   setIsOpened(true);
                 }}
                 onError={() => null}

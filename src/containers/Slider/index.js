@@ -23,10 +23,8 @@ const Slider = () => {
     <div className="SlideCardList">
       {/* Rendu des cartes du slider */}
       {byDateDesc?.map((event, idx) => {
-        console.log(`🟢 Rendu carte #${idx} | index actif: ${index}`, event);
 
         if (!event || !event.cover || !event.title) {
-          console.warn(`⚠️ Carte ${idx} invalide`, event);
           return null;
         }
 
