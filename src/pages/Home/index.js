@@ -10,19 +10,16 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
+import useLastEvent from "../../hooks/useLastEvent";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
   const { data } = useData();
+  const last = useLastEvent();
 
   if (!data?.events?.length) {
     return <div>Chargement des événements...</div>;
   }
-
-  const last = data?.events?.length
-    ? data.events[data.events.length - 1]
-    : null;
-
 
   return (
     <>
