@@ -12,7 +12,7 @@ const DataContext = createContext({});
 
 export const api = {
   loadData: async () => {
-    const json = await fetch("/events.json");
+    const json = await fetch(`${process.env.PUBLIC_URL}/events.json`);
     return json.json();
   },
 };
@@ -34,19 +34,22 @@ export const DataProvider = ({ children }) => {
     getData();
   }, [data, getData]);
 
-  const lastEvent = data?.events?.length ? data.events[data.events.length - 1] : null;
+  const lastEvent = data?.events?.length
+    ? data.events[data.events.length - 1]
+    : null;
 
   // ✅ Corrige ici : mémorise la valeur du Provider
-  const contextValue = useMemo(() => ({
-    data,
-    error,
-    lastEvent,
-  }), [data, error, lastEvent]);
+  const contextValue = useMemo(
+    () => ({
+      data,
+      error,
+      lastEvent,
+    }),
+    [data, error, lastEvent]
+  );
 
   return (
-    <DataContext.Provider value={contextValue}>
-      {children}
-    </DataContext.Provider>
+    <DataContext.Provider value={contextValue}>{children}</DataContext.Provider>
   );
 };
 
@@ -57,4 +60,3 @@ DataProvider.propTypes = {
 export const useData = () => useContext(DataContext);
 
 export default DataContext;
-
