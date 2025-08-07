@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useMemo,
 } from "react";
 
 const DataContext = createContext({});
@@ -31,18 +32,19 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     if (data) return;
     getData();
-  }, [data, getData]); 
+  }, [data, getData]);
 
   const lastEvent = data?.events?.length ? data.events[data.events.length - 1] : null;
 
+  // ✅ Corrige ici : mémorise la valeur du Provider
+  const contextValue = useMemo(() => ({
+    data,
+    error,
+    lastEvent,
+  }), [data, error, lastEvent]);
+
   return (
-    <DataContext.Provider
-      value={{
-        data,
-        error,
-        lastEvent, 
-      }}
-    >
+    <DataContext.Provider value={contextValue}>
       {children}
     </DataContext.Provider>
   );
@@ -55,3 +57,4 @@ DataProvider.propTypes = {
 export const useData = () => useContext(DataContext);
 
 export default DataContext;
+
